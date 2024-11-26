@@ -1,0 +1,22 @@
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Directories for dependencies
+vendor/
+
+# Environment variables
+# .env
+
+# DB data
+cockroach-data/
+
+.vscode/
