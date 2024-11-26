@@ -9,9 +9,6 @@ import (
 var Orders []models.Order
 var Trades []string
 
-//	func ShowTrades() {
-//		fmt.Println("Trade matching is not implemented in this simple CLI version.")
-//	}
 func ShowTrades(db *sql.DB) {
 	rows, err := db.Query(`
 		SELECT t.id, t.buy_order_id, b.user_id AS buyer, t.sell_order_id, s.user_id AS seller, t.amount, t.price, t.created_at
@@ -43,65 +40,6 @@ func ShowTrades(db *sql.DB) {
 			tradeID, buyer, buyOrderID, seller, sellOrderID, amount, price, createdAt)
 	}
 }
-
-// func MatchOrder(db *sql.DB, newOrder models.Order) (bool, string, error) {
-// 	tx, err := db.Begin() // トランザクションを開始
-// 	if err != nil {
-// 		return false, "", err
-// 	}
-
-// 	defer tx.Rollback() // エラー時にロールバック
-
-// 	// 新規注文を保存
-// 	query := `INSERT INTO orders ("user_id", "type", "amount", "price", "status")
-//           VALUES ($1, $2, $3, $4, 'open') RETURNING id`
-// 	err = tx.QueryRow(query, newOrder.User, newOrder.Type, newOrder.Amount, newOrder.Price).Scan(&newOrder.ID)
-// 	if err != nil {
-// 		return false, "", err
-// 	}
-
-// 	// マッチング注文を検索
-// 	matchQuery := `
-// 		SELECT id, user, type, amount, price
-// 		FROM orders
-// 		WHERE status = 'open'
-// 		  AND type = CASE WHEN $1 = 'buy' THEN 'sell' ELSE 'buy' END
-// 		  AND price <= $2
-// 		ORDER BY price ASC
-// 		LIMIT 1;
-// 	`
-// 	var matchedOrder models.Order
-// 	err = tx.QueryRow(matchQuery, newOrder.Type, newOrder.Price).Scan(&matchedOrder.ID, &matchedOrder.User, &matchedOrder.Type, &matchedOrder.Amount, &matchedOrder.Price)
-// 	if err == sql.ErrNoRows {
-// 		// マッチング注文なし
-// 		return false, "Order added. No match found.", tx.Commit()
-// 	} else if err != nil {
-// 		return false, "", err
-// 	}
-
-// 	// マッチング成功：両方の注文を "matched" に更新
-// 	updateQuery := "UPDATE orders SET status = 'matched' WHERE id = $1"
-// 	_, err = tx.Exec(updateQuery, newOrder.ID)
-// 	if err != nil {
-// 		return false, "", err
-// 	}
-
-// 	_, err = tx.Exec(updateQuery, matchedOrder.ID)
-// 	if err != nil {
-// 		return false, "", err
-// 	}
-
-// 	// トランザクションをコミット
-// 	err = tx.Commit()
-// 	if err != nil {
-// 		return false, "", err
-// 	}
-
-// 	// マッチング結果を返す
-// 	message := fmt.Sprintf("Trade executed: %s %s %.2f units at %.2f with %s",
-// 		newOrder.User, newOrder.Type, newOrder.Amount, matchedOrder.Price, matchedOrder.User)
-// 	return true, message, nil
-// }
 
 func MatchOrder(db *sql.DB, newOrder models.Order) (bool, string, error) {
 	tx, err := db.Begin() // トランザクションを開始
