@@ -105,6 +105,6 @@ func ShowOrders() {
 		var userID, orderType string
 		var amount, price float64
 		rows.Scan(&userID, &orderType, &amount, &price)
-		fmt.Printf("User: %s, Type: %s, Amount: %.2f, Price: %.2f ", userID, orderType, amount, price)
+		fmt.Printf("User: %s, Type: %s, Amount: %.2f, Price: %.2f \n", userID, orderType, amount, price)
 	}
 }

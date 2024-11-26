@@ -46,24 +46,15 @@ func main() {
 			fmt.Scan(&name)
 			loggedInUser = name
 
-		case "buy":
+		case "buy", "sell":
+
 			if loggedInUser == "" {
 				fmt.Println("You must log in first.")
 				continue
 			}
 			var amount, price float64
 			fmt.Scan(&amount, &price)
-			db.CreateOrder(loggedInUser, "buy", amount, price)
-
-		case "sell":
-			if loggedInUser == "" {
-				fmt.Println("You must log in first.")
-				continue
-			}
-			var amount, price float64
-			fmt.Scan(&amount, &price)
-			db.CreateOrder(loggedInUser, "sell", amount, price)
-
+			db.CreateOrder(loggedInUser, command, amount, price)
 		case "orders":
 			db.ShowOrders()
 

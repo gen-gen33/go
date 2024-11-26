@@ -7,7 +7,7 @@ A simple CLI-based trading application using Go and CockroachDB.
 - User creation and login
 - Buy and sell order placement
 - Order listing
-- No trading function
+- Trading function
 
 ## Requirements
 - Go 1.20 or later
