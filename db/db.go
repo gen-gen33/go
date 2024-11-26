@@ -94,17 +94,35 @@ func CreateOrder(user, orderType string, amount, price float64) {
 }
 
 func ShowOrders() {
-	rows, err := DB.Query("SELECT user_id, type, amount, price FROM orders")
+	// Buyオーダーを取得
+	rows, err := DB.Query("SELECT user_id, amount, price FROM orders WHERE type = 'buy'")
 	if err != nil {
-		fmt.Printf("Failed to fetch orders: %v ", err)
+		fmt.Printf("Failed to fetch buy orders: %v\n", err)
 		return
 	}
 	defer rows.Close()
 
+	fmt.Println("Buy Orders:")
 	for rows.Next() {
-		var userID, orderType string
+		var userID string
 		var amount, price float64
-		rows.Scan(&userID, &orderType, &amount, &price)
-		fmt.Printf("User: %s, Type: %s, Amount: %.2f, Price: %.2f \n", userID, orderType, amount, price)
+		rows.Scan(&userID, &amount, &price)
+		fmt.Printf("User: %s, Amount: %.2f, Price: %.2f\n", userID, amount, price)
+	}
+
+	// Sellオーダーを取得
+	rows, err = DB.Query("SELECT user_id, amount, price FROM orders WHERE type = 'sell'")
+	if err != nil {
+		fmt.Printf("Failed to fetch sell orders: %v\n", err)
+		return
+	}
+	defer rows.Close()
+
+	fmt.Println("Sell Orders:")
+	for rows.Next() {
+		var userID string
+		var amount, price float64
+		rows.Scan(&userID, &amount, &price)
+		fmt.Printf("User: %s, Amount: %.2f, Price: %.2f\n", userID, amount, price)
 	}
 }
