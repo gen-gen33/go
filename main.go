@@ -18,8 +18,8 @@ func main() {
 
 	fmt.Println("Welcome to the CLI Trading App!")
 	fmt.Println("Commands:")
-	fmt.Println(" - create user <name> <balance>")
-	fmt.Println(" - login <name>")
+	fmt.Println(" - create <user name> <balance>")
+	fmt.Println(" - login <user name>")
 	fmt.Println(" - buy <amount> <price>")
 	fmt.Println(" - sell <amount> <price>")
 	fmt.Println(" - orders")
@@ -88,8 +88,8 @@ func main() {
 		case "help":
 			fmt.Println("Welcome to the CLI Trading App!")
 			fmt.Println("Commands:")
-			fmt.Println(" - create user <name> <balance>")
-			fmt.Println(" - login <name>")
+			fmt.Println(" - create <user name> <balance>")
+			fmt.Println(" - login <user name>")
 			fmt.Println(" - buy <amount> <price>")
 			fmt.Println(" - sell <amount> <price>")
 			fmt.Println(" - orders")
