@@ -13,6 +13,7 @@ func main() {
 	defer db.DB.Close()
 
 	// Setup database tables
+	db.DropTables()
 	db.SetupTables()
 
 	fmt.Println("Welcome to the CLI Trading App!")
@@ -47,19 +48,35 @@ func main() {
 			loggedInUser = name
 
 		case "buy", "sell":
-
 			if loggedInUser == "" {
 				fmt.Println("You must log in first.")
 				continue
 			}
 			var amount, price float64
 			fmt.Scan(&amount, &price)
-			db.CreateOrder(loggedInUser, command, amount, price)
+
+			newOrder, err := db.CreateOrder(loggedInUser, command, amount, price)
+			if err != nil {
+				fmt.Println("Error creating order:", err)
+				continue
+			}
+
+			isMatched, message, err := engine.MatchOrder(db.DB, newOrder)
+			if err != nil {
+				fmt.Println("Error matching order:", err)
+				continue
+			}
+
+			fmt.Println(message)
+			if !isMatched {
+				fmt.Println("Order added to the open order book.")
+			}
+
 		case "orders":
 			db.ShowOrders()
 
 		case "trades":
-			engine.ShowTrades()
+			engine.ShowTrades(db.DB)
 
 		case "logout":
 			loggedInUser = ""
