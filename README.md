@@ -23,3 +23,5 @@ A simple CLI-based trading application using Go and CockroachDB.
 4. CREATE DATABASE trading; (in cockroach)
 5. cockroach start-single-node --insecure --listen-addr=localhost:26257
 6. go run main.go
+
+japanese explanation is [here](https://zenn.dev/genn_tmm/articles/70a2d9025ebdb4)
